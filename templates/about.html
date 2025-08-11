@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block title %}About - COVID BMI Predictor{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Hero Section -->
+    <div class="page-header floating-card" data-delay="0">
+        <h1 class="page-title">About Our Project</h1>
+        <p class="page-subtitle">
+            Discover the vision behind our project, learn about our expert guide, and meet the dedicated team
+            working to bring advanced health insights to you.
+        </p>
+    </div>
+
+    <!-- Project Guide Section -->
+    <div class="guide-section floating-card" data-delay="0.2">
+        <div class="glass-card guide-container">
+            <div class="guide-header">
+                <i class="fas fa-award guide-icon"></i>
+                <h2>Project Guide</h2>
+            </div>
+
+            <div class="guide-content">
+                <div class="guide-image">
+                    <div class="image-glow"></div>
+                    <img src="static/pritam-ahire.jpg?w=250&h=250&fit=crop&crop=face" alt="Prof. Pritam Ahire">
+                </div>
+                <div class="guide-info">
+                    <h3>Prof. Pritam Ahire</h3>
+                    <div class="guide-role">Project Supervisor & Research Guide</div>
+                    <p>
+                        Prof. Pritam Ahire is a distinguished expert in machine learning and healthcare analytics with over
+                        9.5 years of teaching experience in the field. His groundbreaking research in predictive modeling and data
+                        science has been instrumental in guiding this project toward innovative solutions in health
+                        prediction. Under his mentorship, our team has developed cutting-edge algorithms that bridge the gap
+                        between technology and healthcare.<br>
+
+                        <b>Designation:</b> Assistant Professor | 
+                        <b>Qualification:</b> PhD (Pursuing), M-Tech CSE<br>
+                        <b>Total Experience: </b>9.5 Teaching<br>
+                        <b>Expertise:</b> Machine Learning, Data Science, Deep Learning<br>
+                        <b>Publication:</b>
+                            International Journal - 42 | 
+                            Conference - 01 | 
+                            Book - 01 | 
+                            Book chapter - 01<br>
+                        <b>Copyright & Patent:</b> Copyright: 183 & Patent:7<br>
+                        <b>Email:</b> pritam.ahire@nmiet.edu.in<br>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project Team Section -->
+    <div class="team-section">
+        <div class="floating-card" data-delay="0.4">
+            <div class="team-header">
+                <i class="fas fa-users team-icon"></i>
+                <h2 class="section-title">Project Team</h2>
+                <p class="team-subtitle">Meet the talented individuals behind this innovative project</p>
+            </div>
+        </div>
+
+        <div class="team-grid">
+            <div class="glass-card team-card floating-card" data-delay="0.6">
+                <div class="member-image">
+                    <div class="image-glow"></div>
+                    <img src="static/kunal.jpeg?w=150&h=150&fit=crop&crop=face" alt="Kunal Shinde">
+                </div>
+                <h3>Kunal Shinde</h3>
+                <p class="member-role">Student</p>
+                <div class="member-skills">
+                    <span class="skill-tag"></span>
+                    <span class="skill-tag"></span>
+                    <span class="skill-tag"></span>
+                </div>
+            </div>
+
+            <div class="glass-card team-card floating-card" data-delay="0.8">
+                <div class="member-image">
+                    <div class="image-glow"></div>
+                    <img src="static/aditya.jpg?w=150&h=150&fit=crop&crop=face" alt="Aditya Thorat">
+                </div>
+                <h3>Aditya Thorat</h3>
+                <p class="member-role">Student</p>
+                <div class="member-skills">
+                    <span class="skill-tag"></span>
+                    <span class="skill-tag"></span>
+                    <span class="skill-tag"></span>
+                </div>
+            </div>
+
+            <div class="glass-card team-card floating-card" data-delay="1.0">
+                <div class="member-image">
+                    <div class="image-glow"></div>
+                    <img src="static/rajdeep.jpg?w=150&h=150&fit=crop&crop=face" alt="Rajdeep Yadav">
+                </div>
+                <h3>Rajdeep Yadav</h3>
+                <p class="member-role">Student</p>
+                <div class="member-skills">
+                    <span class="skill-tag"></span>
+                    <span class="skill-tag"></span>
+                    <span class="skill-tag"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technology Stack -->
+    <div class="tech-section floating-card" data-delay="1.2">
+        <div class="glass-card tech-container">
+            <div class="tech-header">
+                <i class="fas fa-code tech-icon"></i>
+                <h2>Technology Stack</h2>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <i class="fab fa-python"></i>
+                    <span>Python</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-brain"></i>
+                    <span>Scikit-learn</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Pandas</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-database"></i>
+                    <span>SQLite</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fab fa-html5"></i>
+                    <span>Flask</span>
+                </div>
+                <div class="tech-item">
+                    <i class="fas fa-cogs"></i>
+                    <span>XGBoost</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mission Statement -->
+    <div class="mission-section floating-card" data-delay="1.4">
+        <div class="glass-card mission-container">
+            <div class="mission-header">
+                <i class="fas fa-book-open mission-icon"></i>
+                <h2>Our Mission</h2>
+            </div>
+            <p>
+                We are committed to leveraging the power of artificial intelligence and machine learning to provide
+                accurate, accessible, and actionable health insights. Our goal is to help individuals and healthcare
+                professionals better understand the long-term impacts of COVID-19 on body weight and overall health,
+                enabling more informed decisions and better health outcomes for everyone.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

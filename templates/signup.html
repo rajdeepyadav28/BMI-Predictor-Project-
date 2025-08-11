@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up - COVID BMI Predictor{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card floating-card" data-delay="0">
+        <div class="glass-card auth-form">
+            <div class="auth-header">
+                <div class="auth-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h1>Create Account</h1>
+                <p>Join us to start your health journey</p>
+            </div>
+
+            <form method="POST" class="form" id="signupForm">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-envelope input-icon"></i>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="password" name="password" placeholder="Create a password" required minlength="6">
+                        <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill"></div>
+                        </div>
+                        <span class="strength-text">Password strength</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('confirm_password')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-glow btn-full">
+                    <i class="fas fa-user-plus"></i>
+                    Create Account
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="{{ url_for('login') }}">Sign in</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function togglePassword(inputId) {
+    const input = document.getElementById(inputId);
+    const icon = input.nextElementSibling.querySelector('i');
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
+}
+
+// Password strength indicator
+document.getElementById('password').addEventListener('input', function() {
+    const password = this.value;
+    const strengthBar = document.querySelector('.strength-fill');
+    const strengthText = document.querySelector('.strength-text');
+    
+    let strength = 0;
+    let text = 'Weak';
+    let color = '#ef4444';
+    
+    if (password.length >= 6) strength += 1;
+    if (password.match(/[a-z]/)) strength += 1;
+    if (password.match(/[A-Z]/)) strength += 1;
+    if (password.match(/[0-9]/)) strength += 1;
+    if (password.match(/[^a-zA-Z0-9]/)) strength += 1;
+    
+    if (strength >= 3) {
+        text = 'Medium';
+        color = '#f59e0b';
+    }
+    if (strength >= 4) {
+        text = 'Strong';
+        color = '#10b981';
+    }
+    
+    strengthBar.style.width = `${(strength / 5) * 100}%`;
+    strengthBar.style.background = color;
+    strengthText.textContent = `Password strength: ${text}`;
+});
+
+// Form validation
+document.getElementById('signupForm').addEventListener('submit', function(e) {
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm_password').value;
+    
+    if (password !== confirmPassword) {
+        e.preventDefault();
+        alert('Passwords do not match!');
+    }
+});
+</script>
+{% endblock %}

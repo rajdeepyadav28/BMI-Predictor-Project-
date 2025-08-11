@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block title %}BMI Result - COVID BMI Predictor{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Result Header -->
+    <div class="page-header floating-card" data-delay="0">
+        <h1 class="page-title">Your BMI Prediction</h1>
+        <p class="page-subtitle">Based on our advanced machine learning analysis</p>
+    </div>
+
+    <!-- BMI Result Card -->
+    <div class="result-card floating-card" data-delay="0.2">
+        <div class="glass-card result-container">
+            <div class="result-header">
+                <i class="fas fa-chart-line result-icon" id="resultIcon"></i>
+                <h2>BMI Result</h2>
+            </div>
+
+            <div class="result-display">
+                <div class="bmi-value" id="bmiValue">{{ "%.1f"|format(prediction) }}</div>
+                <div class="bmi-category" id="bmiCategory"></div>
+            </div>
+
+            <div class="bmi-scale">
+                <h3>BMI Scale Reference</h3>
+                <div class="scale-items">
+                    <div class="scale-item">
+                        <span class="scale-label underweight">Underweight:</span>
+                        <span class="scale-range"> < 18.5</span>
+                    </div>
+                    <div class="scale-item">
+                        <span class="scale-label normal">Normal:</span>
+                        <span class="scale-range">18.5 - 24.9</span>
+                    </div>
+                    <div class="scale-item">
+                        <span class="scale-label overweight">Overweight:</span>
+                        <span class="scale-range">25.0 - 29.9</span>
+                    </div>
+                    <div class="scale-item">
+                        <span class="scale-label obese">Obese:</span>
+                        <span class="scale-range">≥ 30.0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="recommendations-layout">
+        <div class="recommendations-card floating-card" data-delay="0.4">
+            <div class="glass-card recommendations-container">
+                <div class="recommendations-header">
+                    <i class="fas fa-lightbulb recommendations-icon" id="recommendationsIcon"></i>
+                    <h3 id="recommendationsTitle">Recommendations</h3>
+                </div>
+                <ul id="recommendationsList" class="recommendations-list">
+                    <!-- Recommendations will be populated by JavaScript -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="health-tips-card floating-card" data-delay="0.6">
+            <div class="glass-card health-tips-container">
+                <div class="health-tips-header">
+                    <i class="fas fa-heart health-tips-icon"></i>
+                    <h3>Additional Health Tips</h3>
+                </div>
+                <ul class="health-tips-list">
+                    <li>
+                        <i class="fas fa-heartbeat tip-icon"></i>
+                        <span>Monitor your health regularly to track changes over time</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-brain tip-icon"></i>
+                        <span>Practice mindfulness and stress reduction techniques</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-chart-line tip-icon"></i>
+                        <span>Stay informed about the latest health and nutrition research</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle tip-icon"></i>
+                        <span>Remember that BMI is one indicator; consider overall fitness too</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons floating-card" data-delay="0.8">
+        <a href="{{ url_for('form') }}" class="btn btn-primary btn-glow">
+            <i class="fas fa-redo"></i>
+            Make Another Prediction
+        </a>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">
+            <i class="fas fa-home"></i>
+            Back to Home
+        </a>
+        <button onclick="downloadResult()" class="btn btn-secondary">
+            <i class="fas fa-download"></i>
+            Download Result
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Display BMI result with category and recommendations
+document.addEventListener('DOMContentLoaded', function() {
+    const bmi = {{ prediction }};
+    displayBMIResult(bmi);
+});
+
+function displayBMIResult(bmi) {
+    const bmiCategoryEl = document.getElementById('bmiCategory');
+    const resultIconEl = document.getElementById('resultIcon');
+    const recommendationsIconEl = document.getElementById('recommendationsIcon');
+    const recommendationsTitleEl = document.getElementById('recommendationsTitle');
+    const recommendationsListEl = document.getElementById('recommendationsList');
+
+    let category, categoryClass, iconClass, recommendations;
+
+    if (bmi < 18.5) {
+        category = 'Underweight';
+        categoryClass = 'underweight';
+        iconClass = 'fas fa-arrow-up';
+        recommendations = [
+            'Increase calorie intake with nutrient-dense foods',
+            'Incorporate strength training to build muscle mass',
+            'Consult a nutritionist for a personalized meal plan',
+            'Ensure adequate sleep and stress management'
+        ];
+    } else if (bmi <= 24.9) {
+        category = 'Normal Weight';
+        categoryClass = 'normal';
+        iconClass = 'fas fa-check-circle';
+        recommendations = [
+            'Maintain a balanced diet rich in fruits, vegetables, and lean proteins',
+            'Keep up with regular physical activity to sustain your health',
+            'Monitor your weight periodically to ensure consistency',
+            'Stay hydrated and continue healthy lifestyle habits'
+        ];
+    } else if (bmi <= 29.9) {
+        category = 'Overweight';
+        categoryClass = 'overweight';
+        iconClass = 'fas fa-exclamation-triangle';
+        recommendations = [
+            'Adopt a calorie-controlled, balanced diet',
+            'Engage in regular aerobic exercises like walking or cycling',
+            'Consult with a healthcare provider or dietitian for a tailored plan',
+            'Monitor your progress and adjust your routine gradually'
+        ];
+    } else {
+        category = 'Obese';
+        categoryClass = 'obese';
+        iconClass = 'fas fa-exclamation-triangle';
+        recommendations = [
+            'Seek advice from a healthcare professional for personalized guidance',
+            'Implement a structured eating plan focusing on whole foods and fiber',
+            'Incorporate regular physical activity under professional supervision',
+            'Consider joining a support group or weight management program'
+        ];
+    }
+
+    bmiCategoryEl.textContent = category;
+    bmiCategoryEl.className = `bmi-category ${categoryClass}`;
+    
+    resultIconEl.className = `${iconClass} result-icon ${categoryClass}`;
+    recommendationsIconEl.className = `${iconClass} recommendations-icon ${categoryClass}`;
+    
+    recommendationsTitleEl.textContent = `${category} Recommendations`;
+
+    // Populate recommendations
+    recommendationsListEl.innerHTML = '';
+    recommendations.forEach(rec => {
+        const li = document.createElement('li');
+        li.innerHTML = `<div class="recommendation-bullet"></div><span>${rec}</span>`;
+        recommendationsListEl.appendChild(li);
+    });
+}
+
+function downloadResult() {
+    const bmi = {{ prediction }};
+    const content = `BMI Prediction Result
+    
+    BMI Value: ${bmi.toFixed(1)}
+    Category: ${document.getElementById('bmiCategory').textContent}
+    Date: ${new Date().toLocaleDateString()}
+
+    Generated by COVID BMI Predictor
+    © 2025 All rights reserved`;
+
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `BMI_Result_${new Date().toISOString().split('T')[0]}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+}
+</script>
+{% endblock %}

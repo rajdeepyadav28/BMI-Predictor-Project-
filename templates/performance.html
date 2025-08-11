@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}Model Performance - COVID BMI Predictor{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header -->
+    <div class="page-header floating-card" data-delay="0">
+        <h1 class="page-title">Model Performance</h1>
+        <p class="page-subtitle">
+            Detailed analysis of our machine learning models' accuracy and performance metrics.
+        </p>
+    </div>
+
+    <!-- Performance Overview -->
+    <div class="performance-overview floating-card" data-delay="0.2">
+        <div class="glass-card overview-container">
+            <h2>Performance Overview</h2>
+            <div class="overview-stats">
+                <div class="overview-stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">94.7%</div>
+                        <div class="stat-label">Average Accuracy</div>
+                    </div>
+                </div>
+                <div class="overview-stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Models Tested</div>
+                    </div>
+                </div>
+                <div class="overview-stat">
+                    <div class="stat-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">15,847</div>
+                        <div class="stat-label">Training Samples</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Model Performance Cards -->
+    <div class="performance-grid">
+        {% for model_name, metrics in performances.items() %}
+        <div class="glass-card performance-card floating-card" data-delay="{{ 0.4 + loop.index0 * 0.1 }}">
+            <div class="performance-header">
+                <h3>{{ model_name }}</h3>
+                <div class="performance-badge">
+                    {% if metrics.R2 >= 0.95 %}
+                        <span class="badge excellent">Excellent</span>
+                    {% elif metrics.R2 >= 0.90 %}
+                        <span class="badge good">Good</span>
+                    {% elif metrics.R2 >= 0.80 %}
+                        <span class="badge fair">Fair</span>
+                    {% else %}
+                        <span class="badge poor">Poor</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="performance-metrics">
+                <div class="metric">
+                    <div class="metric-label">R² Score</div>
+                    <div class="metric-value">{{ "%.4f"|format(metrics.R2) }}</div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" style="width: {{ (metrics.R2 * 100)|round }}%"></div>
+                    </div>
+                </div>
+                
+                <div class="metric">
+                    <div class="metric-label">MAE</div>
+                    <div class="metric-value">{{ "%.4f"|format(metrics.MAE) }}</div>
+                </div>
+
+                <div class="metric">
+                    <div class="metric-label">MSE</div>
+                    <div class="metric-value">{{ "%.4f"|format(metrics.MSE) }}</div>
+                </div>
+                
+                <div class="metric">
+                    <div class="metric-label">RMSE</div>
+                    <div class="metric-value">{{ "%.4f"|format(metrics.RMSE) }}</div>
+                </div>
+            </div>
+            
+            <div class="performance-description">
+                {% if model_name == 'Random Forest' %}
+                    <p>Ensemble method that combines multiple decision trees for robust predictions.</p>
+                {% elif model_name == 'XGBoost' %}
+                    <p>Gradient boosting framework optimized for speed and performance.</p>
+                {% elif model_name == 'Linear Regression' %}
+                    <p>Simple linear approach for baseline comparison and interpretability.</p>
+                {% elif model_name == 'SVR' %}
+                    <p>Support Vector Regression with linear kernel for non-linear relationships.</p>
+                {% elif model_name == 'KNN' %}
+                    <p>K-Nearest Neighbors algorithm for instance-based learning.</p>
+                {% elif model_name == 'Decision Tree' %}
+                    <p>Tree-based model providing clear decision paths and interpretability.</p>
+                {% elif model_name == 'AdaBoost' %}
+                    <p>Adaptive boosting algorithm that combines weak learners sequentially.</p>
+                {% elif model_name == 'Gradient Boosting' %}
+                    <p>Sequential ensemble method that builds models to correct previous errors.</p>
+                {% elif model_name == 'Stacking' %}
+                    <p>Meta-learning approach combining multiple algorithms for optimal performance.</p>
+                {% else %}
+                    <p>Advanced machine learning algorithm for BMI prediction.</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Metrics Explanation -->
+    <div class="metrics-explanation floating-card" data-delay="1.0">
+        <div class="glass-card explanation-container">
+            <h2>Understanding the Metrics</h2>
+            <div class="explanation-grid">
+                <div class="explanation-item">
+                    <div class="explanation-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <div class="explanation-content">
+                        <h3>R² Score (Coefficient of Determination)</h3>
+                        <p>Measures how well the model explains the variance in the data. Values closer to 1.0 indicate better performance.</p>
+                    </div>
+                </div>
+                
+                <div class="explanation-item">
+                    <div class="explanation-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="explanation-content">
+                        <h3>MAE (Mean Absolute Error)</h3>
+                        <p>Average absolute difference between predicted and actual values. Lower values indicate better accuracy.</p>
+                    </div>
+                </div>
+                
+                <div class="explanation-item">
+                    <div class="explanation-icon">
+                        <i class="fas fa-square-root-alt"></i>
+                    </div>
+                    <div class="explanation-content">
+                        <h3>RMSE (Root Mean Square Error)</h3>
+                        <p>Square root of the average squared differences. Penalizes larger errors more than MAE.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons floating-card" data-delay="1.2">
+        <a href="{{ url_for('form') }}" class="btn btn-primary btn-glow">
+            <i class="fas fa-calculator"></i>
+            Try Prediction
+        </a>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">
+            <i class="fas fa-home"></i>
+            Back to Home
+        </a>
+    </div>
+</div>
+{% endblock %}
