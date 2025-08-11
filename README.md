@@ -95,7 +95,7 @@ PracticeBMI/
 
 Author
 
-Kunal Shinde
+Rajdeep Yadav
 GitHub Profile
 
 
